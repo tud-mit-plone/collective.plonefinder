@@ -2,12 +2,12 @@
 # $Id$
 """Public widget"""
 
+from plone import api
 from zope.schema.interfaces import InvalidValue
 from ZTUtils import make_query
 from zope.app.form.browser import OrderedMultiSelectWidget
 from zope.formlib.widgets import TextWidget
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from zope.component.hooks import getSite
 from Products.CMFCore.utils import getToolByName
 
 from collective.plonefinder import siteMessageFactory as _
@@ -47,7 +47,7 @@ class FinderImageWidget(TextWidget):
         return self.template()
 
     def _getBaseUrl(self):
-        base = getSite()
+        base = api.portal.get()
         return base.absolute_url()
 
     def htmlid(self):
@@ -113,7 +113,7 @@ class FinderSelectWidget(OrderedMultiSelectWidget):
         else:
             voc = None
         if self.base is None:
-            self.base = getSite()
+            self.base = api.portal.get()
         super(FinderSelectWidget, self).__init__(field, voc, request)
 
     def _getBaseUrl(self):
